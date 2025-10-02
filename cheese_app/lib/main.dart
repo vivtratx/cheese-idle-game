@@ -1,3 +1,5 @@
+import 'package:confetti/confetti.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:core';
@@ -22,6 +24,11 @@ class CounterPage extends StatefulWidget {
 }
 
 class _CounterPageState extends State<CounterPage> {
+
+  // Confetti
+  late final ConfettiController controller =
+      ConfettiController(duration: const Duration(milliseconds: 700));
+
   int _cheese = 0;
   int _level = 1;
   int _numRats = 0;
@@ -57,7 +64,7 @@ class _CounterPageState extends State<CounterPage> {
 
   // Upgrade Cheese Maker Machine
   void _upgradeMachine(){
-    if (_cheese > _machineCost){
+    if (_cheese > _machineCost-1){
       _cheese -= _machineCost;
       _machineCost+=(5*_level);
       _level++;
@@ -67,7 +74,7 @@ class _CounterPageState extends State<CounterPage> {
 
   // Need method to hire rat friend
   void _hireRat(){
-    if (_cheese > _friendCost){
+    if (_cheese > _friendCost-1){
       _cheese -= _friendCost;
       _friendCost+=(5*_level);
       _numRats++;
@@ -82,52 +89,75 @@ class _CounterPageState extends State<CounterPage> {
     _numRats = 0;
     _machineCost = 5;
     _friendCost = 10;
+    controller.stop();
+    controller.play();
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.yellow,
-      appBar: AppBar(centerTitle: true, title: const Text('🧀 Cheddah Game')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+    return Stack(
+      children:[
+        Scaffold(
+          backgroundColor: Colors.yellow[100],
+          appBar: AppBar(centerTitle: true, forceMaterialTransparency: true, title: const Text("🧀 Viv's Very Cheesy Cheddah Game")),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
 
-            //Text('$_counter', style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold)),
+                //Text('$_counter', style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold)),
 
-            Text('🧀: $_cheese Cheese', style: const TextStyle(fontSize: 48)),
-            Text('Lvl $_level Cheese Machine: +$_level🧀', style:const TextStyle(fontSize: 24)),
-            Text('$_numRats Rat Friends: 1 Cheese/s', style:const TextStyle(fontSize: 24)),
+                Text('🧀: $_cheese Cheese', style: const TextStyle(fontSize: 48)),
+                Text('Lvl $_level Cheese Machine: +$_level🧀', style:const TextStyle(fontSize: 24)),
+                Text('$_numRats Rat Friends: 1 Cheese/s', style:const TextStyle(fontSize: 24)),
 
 
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _upgradeMachine,
-              child: Text('Upgrade Cheese Machine ($_machineCost Cheese)'),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(foregroundColor: const Color.fromARGB(255, 172, 129, 2), backgroundColor: Colors.amberAccent),
+                  onPressed: _upgradeMachine,
+                  child: Text('Upgrade Cheese Machine ($_machineCost Cheese)'),
+                ),
+
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(foregroundColor: const Color.fromARGB(255, 172, 129, 2), backgroundColor: Colors.amberAccent),
+                  onPressed: _hireRat,
+                  child: Text('Hire Rat Friend ($_friendCost Cheese)'),
+                ),
+
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(foregroundColor: const Color.fromARGB(255, 172, 129, 2), backgroundColor: Colors.amberAccent),
+                  onPressed: _incrementCheese,
+                  child: const Text('MAKE CHEESE'),
+                ),
+
+                const SizedBox(height: 100),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(foregroundColor: const Color.fromARGB(255, 172, 129, 2), backgroundColor: Colors.amberAccent),
+                  onPressed: _restart,
+                  child: const Text('Restart Game'),
+                ),
+              ],
             ),
-
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _hireRat,
-              child: Text('Hire Rat Friend ($_friendCost Cheese)'),
-            ),
-
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _incrementCheese,
-              child: const Text('MAKE CHEESE'),
-            ),
-
-            const SizedBox(height: 100),
-            ElevatedButton(
-              onPressed: _restart,
-              child: const Text('Restart Game'),
-            ),
-          ],
+          ),
         ),
-      ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: ConfettiWidget(
+            confettiController: controller,
+            blastDirectionality: BlastDirectionality.explosive,
+            emissionFrequency: 0.1,
+            minBlastForce: 149,
+            maxBlastForce: 150,
+            numberOfParticles: 30,
+            gravity: 1,
+            colors: [const Color.fromARGB(255, 235, 159, 19)],
+          ),
+        ),
+      ]
     );
   }
 }
