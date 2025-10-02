@@ -25,6 +25,8 @@ class _CounterPageState extends State<CounterPage> {
   int _cheese = 0;
   int _level = 1;
   int _numRats = 0;
+  int _machineCost = 5;
+  int _friendCost = 10;
 
   // Timer stuff for hiring rat friends
   Timer? _timer;
@@ -55,8 +57,9 @@ class _CounterPageState extends State<CounterPage> {
 
   // Upgrade Cheese Maker Machine
   void _upgradeMachine(){
-    if (_cheese > 19){
-      _cheese -= 20;
+    if (_cheese > _machineCost){
+      _cheese -= _machineCost;
+      _machineCost+=(5*_level);
       _level++;
     }
     setState(() {});
@@ -64,8 +67,9 @@ class _CounterPageState extends State<CounterPage> {
 
   // Need method to hire rat friend
   void _hireRat(){
-    if (_cheese > 29){
-      _cheese -= 30;
+    if (_cheese > _friendCost){
+      _cheese -= _friendCost;
+      _friendCost+=(5*_level);
       _numRats++;
     }
     setState(() {});
@@ -76,12 +80,15 @@ class _CounterPageState extends State<CounterPage> {
     _cheese = 0;
     _level = 1;
     _numRats = 0;
+    _machineCost = 5;
+    _friendCost = 10;
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.yellow,
       appBar: AppBar(centerTitle: true, title: const Text('🧀 Cheddah Game')),
       body: Center(
         child: Column(
@@ -98,13 +105,13 @@ class _CounterPageState extends State<CounterPage> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _upgradeMachine,
-              child: const Text('Upgrade Cheese Machine (20 Cheese)'),
+              child: Text('Upgrade Cheese Machine ($_machineCost Cheese)'),
             ),
 
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _hireRat,
-              child: const Text('Hire Rat Friend (30 Cheese)'),
+              child: Text('Hire Rat Friend ($_friendCost Cheese)'),
             ),
 
             const SizedBox(height: 20),
