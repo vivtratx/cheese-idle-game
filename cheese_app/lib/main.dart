@@ -110,28 +110,28 @@ class _CounterPageState extends State<CounterPage> {
 
                 Text('🧀: $_cheese Cheese', style: const TextStyle(fontSize: 48)),
                 Text('Lvl $_level Cheese Machine: +$_level🧀', style:const TextStyle(fontSize: 24)),
-                Text('$_numRats Rat Friends: 1 Cheese/s', style:const TextStyle(fontSize: 24)),
+                Text('$_numRats Rat Friends: $_numRats Cheese/s', style:const TextStyle(fontSize: 24)),
 
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 40),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(foregroundColor: const Color.fromARGB(255, 172, 129, 2), backgroundColor: Colors.amberAccent),
                   onPressed: _upgradeMachine,
-                  child: Text('Upgrade Cheese Machine ($_machineCost Cheese)'),
+                  child: Text('Upgrade Cheese Machine ($_machineCost Cheese)', style: TextStyle(fontSize: 15)),
                 ),
 
                 const SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(foregroundColor: const Color.fromARGB(255, 172, 129, 2), backgroundColor: Colors.amberAccent),
                   onPressed: _hireRat,
-                  child: Text('Hire Rat Friend ($_friendCost Cheese)'),
+                  child: Text('Hire Rat Friend ($_friendCost Cheese)', style: TextStyle(fontSize: 15)),
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 40),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(foregroundColor: const Color.fromARGB(255, 172, 129, 2), backgroundColor: Colors.amberAccent),
                   onPressed: _incrementCheese,
-                  child: const Text('MAKE CHEESE'),
+                  child: const Text('MAKE CHEESE', style: TextStyle(fontSize: 40)),
                 ),
 
                 const SizedBox(height: 100),
